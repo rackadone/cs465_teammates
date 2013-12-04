@@ -16,6 +16,11 @@
 		<meta class="foundation-mq-xxlarge">
 		<style></style>
 		<meta class="foundation-mq-topbar">
+		
+		<script>
+			var money = {Serin:-38.00, Elizabeth:5.00};
+			localStorage.setItem('money', JSON.stringify(money));
+		</script>
 </head>
 <body>
     
@@ -49,18 +54,31 @@
     <!-- Main Blog Content -->
 		<div class="large-12 columns" role="content">
 			<article>
-				<h3><a href="http://foundation.zurb.com/templates/blog.html#">Blog Post Title</a></h3>
-				<h6>Written by <a href="http://foundation.zurb.com/templates/blog.html#">John Smith</a> on August 12, 2012.</h6>
-				<p>I owe Serin $38.00</p>
-				<p>I owe Elizabeth $5.00</p>
+				<h3>MONEY</h3>
+				<script>
+					money = JSON.parse(localStorage.getItem('money'));
+					for (var person in money) {
+						amount = money[person];
+						if (amount > 0) {
+							document.write('<h6>' + person + ' owes me $' + amount + '</h6>');
+						} else if (amount < 0) {
+							document.write('<h6>I owe ' + person + ' $' + (-1 * amount) + '</h6>');
+						}
+					}
+				</script>
 			</article>
 
 			<hr>
 
 			<article>
-				<h3><a href="http://foundation.zurb.com/templates/blog.html#">Blog Post Title</a></h3>
-				<h6>Written by <a href="http://foundation.zurb.com/templates/blog.html#">John Smith</a> on August 12, 2012.</h6>
-				<p>You paid $50 for nothing. 12-03-2013</p>
+				<h3>CHORES</h3>
+			</article>
+			<hr>
+			<article>
+				<h3>HISTORY</h3>
+				<p>12-03-2013 Paul spent $27.00 on lunch for Paul, Serin, and Elizabeth.</p>
+				<p>12-02-2013 I spent $5.25 on cereal for Paul.</p>
+				<p>12-01-2013 I emptied the trash.</p>
 			</article>
 		</div>
 	</div>
