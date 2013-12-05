@@ -22,6 +22,44 @@
 			localStorage.setItem('money', JSON.stringify(money));
 			var chores = {I:5, Elizabeth:30, Serin:2};
 			localStorage.setItem('chores', JSON.stringify(chores));
+			var history = [ ['12-03-2013', 'Paul', 27.00, 'lunch', ['Paul', 'Serin', 'Elizabeth']],
+							['12-02-2013', 'I', 5.25, 'cereal', ['Paul']],
+							['12-01-2013', 'emptied the trash'] ];
+			localStorage.setItem('history', JSON.stringify(history));
+			
+			function print_history() {
+				document.write('<ul class="no-bullet">');
+				list = JSON.parse(localStorage.getItem('history'));
+				for (var i = 0; i < list.length; i++) {
+					item = list[i];
+					if (item.length == 5) {
+						print_history_money(item);
+					} else {
+						print_history_chore(item);
+					}
+				}
+				document.write('</ul>');
+			}
+			
+			function print_history_chore(item) {
+				document.write('<li>' + item[0] + ' I ' + item[1] + '</li>');
+			}
+			
+			function print_history_money(item) {
+				document.write('<li>' + item[0] + ' ' + item[1] + ' spent $' + item[2] + ' on ' + item[3] + ' for ');
+				names = item[4];
+				if (names.length == 1) {
+					document.write(names[0]);
+				} else if (names.length == 2) {
+					document.write(names[0] + ' and ' + names[1]);
+				} else if (names.length >= 3) {
+					for (var i = 0; i < names.length - 1; i++) {
+						document.write(names[i] + ', ');
+					}
+					document.write(' and ' + names[names.length - 1]);
+				}
+				document.write('</li>');
+			}
 			
 			function print_money() {
 				document.write('<ul class="no-bullet">');
@@ -105,10 +143,9 @@
 			<hr>
 			<article>
 				<h3>HISTORY</h3>
-				<ul class="no-bullet">
-					<li>12-03-2013 Paul spent $27.00 on lunch for Paul, Serin, and Elizabeth.</li>
-					<li>12-02-2013 I spent $5.25 on cereal for Paul.</li>
-					<li>12-01-2013 I emptied the trash.</li>
+				<script>
+					print_history();
+				</script>
 			</article>
 		</div>
 	</div>
