@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>You Do It</title>
+
+		<meta name="author" content="Team Mates">
+
+		<link rel="stylesheet" href="./foundation-5.0.2/css/foundation.css">
+		<link rel="stylesheet" href="./foundation-icons/foundation-icons.css">
+		<!--<script src="./foundation-5.0.2/js/modernizr.js"></script>-->
+		<meta class="foundation-mq-small">
+		<meta class="foundation-mq-medium">
+		<meta class="foundation-mq-large">
+		<meta class="foundation-mq-xlarge">
+		<meta class="foundation-mq-xxlarge">
+		<style></style>
+		<meta class="foundation-mq-topbar">
+		
+		<script>
+		
+			
+			var mates = ['Paul', 'Serin', 'Elizabeth'];
+			localStorage.setItem('mates', JSON.stringify(mates));
+			
+			function print_roommates() {
+				document.write('<ul class="no-bullet" style="text-align:center">');
+				list = JSON.parse(localStorage.getItem('mates'));
+				for(var elem in list) {
+					name = list[elem];
+					document.write('<li>' + name + '</li>');
+				}
+				document.write('</ul>');
+			}
+			
+
+		</script>
+</head>
+<body>
+    
+
+<!-- Title Bar -->
+
+	<div class="row">
+		<div class="large-12 columns">
+			<div class="nav-bar left">
+				<ul class="button-group">
+					<li><a href="http://foundation.zurb.com/templates/blog.html#" class="button"><i class="step fi-widget"></i></a></li>
+				</ul>
+			</div>
+			<div class="nav-bar right">
+				<ul class="button-group">
+					<li><a href="http://foundation.zurb.com/templates/blog.html#" class="button"><i class="step fi-plus"></i></a></li>
+				</ul>
+			</div>
+			<h1>You Do It</h1>
+		</div>
+	</div>
+
+  <!-- End Title Bar -->
+
+
+  <!-- Main Page Content and Sidebar -->
+
+	<div class="row">
+
+    <!-- Main Blog Content -->
+		<div class="large-12 columns" role="content">
+			<article class="callout panel">
+				<h2>ROOMMATES</h2>
+				<script>
+					print_roommates();
+				</script>
+			</article>
+			<div align="center">
+			<a href="../main" class="medium radius button expand">Logout</a>
+			</div>
+			
+		</div>
+	</div>
+</body>
+</html>
