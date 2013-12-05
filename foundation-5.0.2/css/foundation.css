@@ -2968,15 +2968,14 @@ h1, h2, h3, h4, h5, h6 {
     color: #6f6f6f;
     line-height: 0; }
 
-h1 {
+h1 {  /* header */
   font-size: 2.125rem;
-  text-align: center;
-  font-weight: bold; }
+  text-align: center; }
 
 h2 {
   font-size: 1.6875rem; }
 
-h3 {
+{
   font-size: 1.375rem; }
 
 h4 {
