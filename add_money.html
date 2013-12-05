@@ -22,7 +22,7 @@
 			// Temporary variables
 			var roommates = ['Serin', 'Elizabeth'];
 			localStorage.setItem('roommates', JSON.stringify(roommates));
-			
+
 			function print_roommates() {
 				var roommies = JSON.parse(localStorage.getItem('roommates'));
 				for (var i = 0; i < roommies.length; i++) {
@@ -33,6 +33,24 @@
 				}
 			}
 
+			// Store information in local storage
+			function submit() {
+				var moneyinput = document.getElementById('money').value;
+				var spenton = document.getElementById('task').value;
+				
+				if (moneyinput == "" || spenton == "") {
+					alert ("Please fill out all fields")
+				}
+				else {
+					// Check dollar input
+					var regex  = /^\d+(?:\.\d{0,2})$/;	
+					if (regex.test(moneyinput)) {
+						list = JSON.parse(localStorage.getItem('history'));
+					}
+				}
+			}
+
+			
 			
 		</script>
 </head>
@@ -45,12 +63,12 @@
 		<div class="large-12 columns">
 			<div class="nav-bar left">
 				<ul class="button-group">
-					<li><a href="http://foundation.zurb.com/templates/blog.html#" class="small button">cancel</a></li>
+					<li><a href="index.html" class="button"><i class="step fi-arrow-left"></i></a></li>
 				</ul>
 			</div>
 			<div class="nav-bar right">
 				<ul class="button-group">
-					<li><a href="http://foundation.zurb.com/templates/blog.html#" class="small button">submit</a></li>
+					<li><a href="index.html" class="button"><i class="step fi-arrow-right"></i></a></li>
 				</ul>
 			</div>
 			<h1>You Do It</h1>
@@ -77,7 +95,7 @@
 <!-- Form -->
 	<div class="row">
 		<div class="large-12 columns">
-			<form>
+			<form name="addform">
 				<div class="row collapse">
 					<div class="small-3 large-2 columns">
 						<span class="prefix">I spent</span>
@@ -86,7 +104,7 @@
 						<span class="prefix"><i class="step fi-dollar"></i></span>
 					</div>
 					<div class="small-8 large-8 columns">
-						<input type="text" placeholder="XX.XX">
+						<input name="amount" id="money" type="text"  pattern="[0-9]*">
 					</div>
 				</div>
 
@@ -95,7 +113,7 @@
 						<span class="prefix">On</span>
 					</div>
 					<div class="small-9 large-10 columns">
-						<input type="text" placeholder="...">
+						<input name="on" id="task" type="text" placeholder="...">
 					</div>
 				</div>
 
