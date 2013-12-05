@@ -1,7 +1,9 @@
-    ul.button-group>li{
-        float: none;
-        display: inline-block;
-    }
-    ul.button-group{
-        text-align: center;
-    }
+.rating-approved {
+	color: rgba(0,0,0,255);
+	font-size: 4em;
+}
+
+.rating-not-approved {
+	color: rgba(150,150,150,0.5);
+	font-size: 4em;
+}

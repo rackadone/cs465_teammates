@@ -22,94 +22,18 @@
 			// Temporary variables
 			var roommates = ['Serin', 'Elizabeth'];
 			localStorage.setItem('roommates', JSON.stringify(roommates));
-
-
-
-
-			var money = {Serin:-38.00, Elizabeth:5.00};
-			localStorage.setItem('money', JSON.stringify(money));
-			var chores = {I:5, Elizabeth:30, Serin:2};
-			localStorage.setItem('chores', JSON.stringify(chores));
-			var history = [ ['12-03-2013', 'Paul', 27.00, 'lunch', ['Paul', 'Serin', 'Elizabeth']],
-							['12-02-2013', 'I', 5.25, 'cereal', ['Paul']],
-							['12-01-2013', 'emptied the trash'] ];
-			localStorage.setItem('history', JSON.stringify(history));
 			
 			function print_roommates() {
 				var roommies = JSON.parse(localStorage.getItem('roommates'));
 				for (var i = 0; i < roommies.length; i++) {
 
 					document.write('<div class="row"><div class="small-3 large-2 columns">');
-					document.write('<a href="#" class="medium button">NAME</a></div>');
-					document.write('<div class="small-5 large-2 columns"><span class="prefix">$</span></div></div>');
+					document.write('<a href="#" class="small button">' + roommies[i] + '</a></div>');
+					document.write('<div class="small-5 large-2 columns"><span class="prefix"><i class="step fi-dollar"></i></span></div></div>');
 				}
 			}
 
-			function print_history() {
-				document.write('<ul class="no-bullet">');
-				list = JSON.parse(localStorage.getItem('history'));
-				for (var i = 0; i < list.length; i++) {
-					item = list[i];
-					if (item.length == 5) {
-						print_history_money(item);
-					} else {
-						print_history_chore(item);
-					}
-				}
-				document.write('</ul>');
-			}
 			
-			function print_history_chore(item) {
-				document.write('<li>' + item[0] + ' I ' + item[1] + '</li>');
-			}
-			
-			function print_history_money(item) {
-				document.write('<li>' + item[0] + ' ' + item[1] + ' spent $' + item[2] + ' on ' + item[3] + ' for ');
-				names = item[4];
-				if (names.length == 1) {
-					document.write(names[0]);
-				} else if (names.length == 2) {
-					document.write(names[0] + ' and ' + names[1]);
-				} else if (names.length >= 3) {
-					for (var i = 0; i < names.length - 1; i++) {
-						document.write(names[i] + ', ');
-					}
-					document.write(' and ' + names[names.length - 1]);
-				}
-				document.write('</li>');
-			}
-			
-			function print_money() {
-				document.write('<ul class="no-bullet">');
-				list = JSON.parse(localStorage.getItem('money'));
-				for (var elem in list) {
-					amount = list[elem];
-					if (amount > 0) {
-						document.write('<li>' + elem + ' owes me $' + amount + '</li>');
-					} else if (amount < 0) {
-						document.write('<li>I owe ' + elem + ' $' + (-1 * amount) + '</li>');
-					}
-				}
-				document.write('</ul>');
-			}
-			
-			function print_chores() {
-				status = JSON.parse(localStorage.getItem('chores'));
-				max = 0;
-				for (var i = 0; i < status.length; i++) {
-					var time = status[i];
-					if (time > max) {
-						max = time;
-					}
-				}
-				if (status['I'] >= max * 0.95) {
-					document.write("<p>I'm doing great!</p>");
-				} else if (status['I'] >= max * 0.7) {
-					document.write("<p>I'm not doing quite enough chores...</p>");
-				} else {
-					document.write("<p>I am a terrible human being.</p>");
-				}
-			}
 		</script>
 </head>
 <body>
@@ -138,7 +62,7 @@
 		<div class="small-centered columns">
 			<ul class="button-group">
 				<li><a href="#" class="small button disabled">MONEY</a></li>
-				<li><a href="#" class="small button">CHORE</a></li>
+				<li><a href="./add_chore.html" class="small button">CHORE</a></li>
 			</ul>
 		</div>
 	</div>
@@ -159,7 +83,7 @@
 						<span class="prefix">I spent</span>
 					</div>
 					<div class="small-1 large-2 columns">
-						<span class="prefix">$</span>
+						<span class="prefix"><i class="step fi-dollar"></i></span>
 					</div>
 					<div class="small-8 large-8 columns">
 						<input type="text" placeholder="XX.XX">

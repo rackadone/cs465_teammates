@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>You Do It</title>
+
+		<meta name="author" content="Team Mates">
+
+		<link rel="stylesheet" href="./foundation-5.0.2/css/foundation.css">
+		<link rel="stylesheet" href="./foundation-icons/foundation-icons.css">
+		<link rel="stylesheet" href="./foundation-5.0.2/css/add.css">
+		<!--<script src="./foundation-5.0.2/js/modernizr.js"></script>-->
+		<meta class="foundation-mq-small">
+		<meta class="foundation-mq-medium">
+		<meta class="foundation-mq-large">
+		<meta class="foundation-mq-xlarge">
+		<meta class="foundation-mq-xxlarge">
+		<style></style>
+		<meta class="foundation-mq-topbar">
+		
+		<script>
+			// Temporary variables
+			var roommates = ['Serin', 'Elizabeth'];
+			localStorage.setItem('roommates', JSON.stringify(roommates));
+			
+			function print_roommates() {
+				var roommies = JSON.parse(localStorage.getItem('roommates'));
+				for (var i = 0; i < roommies.length; i++) {
+
+					document.write('<div class="row"><div class="small-3 large-2 columns">');
+					document.write('<a href="#" class="medium button">' + roommies[i] + '</a></div>');
+					document.write('<div class="small-5 large-2 columns"><span class="prefix">$</span></div></div>');
+				}
+			}
+
+			
+		</script>
+</head>
+<body>
+    
+
+<!-- Title Bar -->
+
+	<div class="row">
+		<div class="large-12 columns">
+			<div class="nav-bar left">
+				<ul class="button-group">
+					<li><a href="http://foundation.zurb.com/templates/blog.html#" class="small button">cancel</a></li>
+				</ul>
+			</div>
+			<div class="nav-bar right">
+				<ul class="button-group">
+					<li><a href="http://foundation.zurb.com/templates/blog.html#" class="small button">submit</a></li>
+				</ul>
+			</div>
+			<h1>You Do It</h1>
+		</div>
+	</div>
+
+<!-- Money / Chore filter -->
+	<div class="row">
+		<div class="small-centered columns">
+			<ul class="button-group">
+				<li><a href="./add_money.html" class="small button">MONEY</a></li>
+				<li><a href="#" class="small button disabled">CHORE</a></li>
+			</ul>
+		</div>
+	</div>
+
+<!-- What did you do? -->
+	<div class="row">
+		<div class="large-12 columns">
+			<h4>What did you do?</h4>
+			<h2>I ... </h2>
+		</div>
+	</div>
+
+<!-- Form -->
+	<div class="row">
+		<div class="large-12 columns">
+			<form>
+				<div class="row collapse">
+					<div class="small-12 large-12 columns">
+						<input type="text" placeholder="...">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+<!-- How nasty was it? -->
+	<div class="row">
+		<div class="large-12 columns">
+			<h4>How nasy was it?</h4>
+		</div>
+	</div>
+
+<!-- Chore rating -->
+	<div class="row">
+		<div class="large-12 columns">
+			<i class="step fi-skull rating-not-approved"></i>
+			<i class="step fi-skull rating-not-approved"></i>
+			<i class="step fi-skull rating-not-approved"></i>
+			<i class="step fi-skull rating-not-approved"></i>
+			<i class="step fi-skull rating-not-approved"></i>
+		</div>
+	</div>
+
+
+</body>
+</html>
