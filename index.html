@@ -8,7 +8,7 @@
 
 		<link rel="stylesheet" href="./foundation-5.0.2/css/foundation.css">
 		<link rel="stylesheet" href="./foundation-icons/foundation-icons.css">
-		<script src="./foundation-5.0.2/js/modernizr.js"></script>
+		<!--<script src="./foundation-5.0.2/js/modernizr.js"></script>-->
 		<meta class="foundation-mq-small">
 		<meta class="foundation-mq-medium">
 		<meta class="foundation-mq-large">
@@ -20,6 +20,40 @@
 		<script>
 			var money = {Serin:-38.00, Elizabeth:5.00};
 			localStorage.setItem('money', JSON.stringify(money));
+			var chores = {I:5, Elizabeth:30, Serin:2};
+			localStorage.setItem('chores', JSON.stringify(chores));
+			
+			function print_money() {
+				document.write('<ul class="no-bullet">');
+				list = JSON.parse(localStorage.getItem('money'));
+				for (var elem in list) {
+					amount = list[elem];
+					if (amount > 0) {
+						document.write('<li>' + elem + ' owes me $' + amount + '</li>');
+					} else if (amount < 0) {
+						document.write('<li>I owe ' + elem + ' $' + (-1 * amount) + '</li>');
+					}
+				}
+				document.write('</ul>');
+			}
+			
+			function print_chores() {
+				status = JSON.parse(localStorage.getItem('chores'));
+				max = 0;
+				for (var i = 0; i < status.length; i++) {
+					var time = status[i];
+					if (time > max) {
+						max = time;
+					}
+				}
+				if (status['I'] >= max * 0.95) {
+					document.write("<p>I'm doing great!</p>");
+				} else if (status['I'] >= max * 0.7) {
+					document.write("<p>I'm not doing quite enough chores...</p>");
+				} else {
+					document.write("<p>I am a terrible human being.</p>");
+				}
+			}
 		</script>
 </head>
 <body>
@@ -55,20 +89,15 @@
 			<article class="callout panel">
 				<h3>MONEY</h3>
 				<script>
-					money = JSON.parse(localStorage.getItem('money'));
-					for (var person in money) {
-						amount = money[person];
-						if (amount > 0) {
-							document.write('<h6>' + person + ' owes me $' + amount + '</h6>');
-						} else if (amount < 0) {
-							document.write('<h6>I owe ' + person + ' $' + (-1 * amount) + '</h6>');
-						}
-					}
+					print_money();
 				</script>
 			</article>
 
 			<article class="callout panel">
 				<h3>CHORES</h3>
+				<script>
+					print_chores();
+				</script>
 			</article>
 
 			<article class="callout panel">
