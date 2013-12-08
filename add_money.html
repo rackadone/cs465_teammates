@@ -19,29 +19,70 @@
 		<meta class="foundation-mq-topbar">
 		
 		<script>
-			// Temporary variables
-			var roommates = ['Serin', 'Elizabeth'];
-			localStorage.setItem('roommates', JSON.stringify(roommates));
+			init_localstorage();
 
 			function print_roommates() {
 				var roomies = JSON.parse(localStorage.getItem('roommates'));
 				for (var i = 0; i < roomies.length; i++) {
 					document.write('<div class="row"><div class="small-3 large-2 columns">');
-					document.write('<a href="#" class="small button">' + roomies[i] + '</a></div>');
-					document.write('<div class="small-3 large-2 columns"><input id = "' + 'roomie' + i.toString() +'" type="text" placeholder="$0.00" /></div></div>');
+					document.write('<a id = "' + i + '" onclick = "select_deselect(' + i + ')" class="small button">' + roomies[i] + '</a></div>');
+					document.write('<div class="small-3 large-2 columns"><input class= "paying" id = "' + 'roomie' + roomies[i] +'" type="text" placeholder="$0.00" disabled/></div></div>');
 				}
 			}
 
+
+
 			// Store information in local storage
 			function submit() {
+				validate_money();
 				var moneyinput = trim_whitespace(document.getElementById('money').value);
 				var spenton = trim_whitespace(document.getElementById('task').value);
 				
 				if (moneyinput == "" || spenton == "") {
-					alert ("Please fill out all fields")
+					alert ("Please fill out all fields");
 				}
 				else {
-					
+					// Both money input and place spent on are filled out,
+					// update local storage values and leave.	
+				
+					// Update 'money' variable
+					var roomies = JSON.parse(localStorage.getItem('roommates'));
+					var money = JSON.parse(localStorage.getItem('money'));
+					var total = 0.0;
+
+					for (i = 0; i < roomies.length; i++) {
+						var money_owed = document.getElementById('roomie' + roomies[i]).value;
+						if (money_owed == "") {
+							continue;
+						}
+						money_owed = parseFloat(money_owed.substr(1));
+						var roommate_name = roomies[i];
+						total += money_owed;
+						if (roommate_name in money) {
+							console.log(roommate_name + (money[roommate_name].toString()));
+							money[roommate_name] += money_owed;
+						}
+					}
+					console.log(money);
+					localStorage.setItem('money', JSON.stringify(money));
+
+					// Update 'history' variable
+
+					// Get current date
+					var date_obj = new Date();
+					var date = ('0' + date_obj.getDate()).slice(-2);
+					var month = ('0' + (date_obj.getMonth() + 1)).slice(-2);
+					var year = date_obj.getFullYear();
+					var timestamp = month + "-" + date + "-" + year;
+
+					// Get charge reason
+					var reason = trim_whitespace(document.getElementById('task').value);
+					var history = JSON.parse(localStorage.getItem('history'));
+					history.unshift([timestamp, 'I', total, reason, get_selected_roommates()]);
+					localStorage.setItem('history', JSON.stringify(history));
+
+					document.location.href = "./index.html";
+
 				}
 			}
 
@@ -51,6 +92,15 @@
 
 			// Validate and check money field
 			function validate_money() {
+				// Clear For fields
+				var roomies = JSON.parse(localStorage.getItem('roommates'));
+				// Appropriate distribution to inputs
+				for (i = 0; i < roomies.length; i++) {
+					var roommate_slot = document.getElementById('roomie' + roomies[i]);
+					roommate_slot.value = "";
+					console.log("test id");
+				}
+
 				var regex = /^\$?[0-9]+(\.[0-9][0-9])?$/;
 				var moneyinput = trim_whitespace(document.getElementById('money').value);
 				if (moneyinput != "") {
@@ -72,41 +122,99 @@
 						else {
 							distribute_money(parseInt(parseFloat(moneyinput.replace('$', '')) * 100.0));
 						}
-
 					}
 				}
 			}
 
-			// helper function for validate_money
-			function distribute_money(centvalue) {
+			function select_deselect(roomie_id) {
 				var roomies = JSON.parse(localStorage.getItem('roommates'));
+				var input_id = 'roomie' + roomies[roomie_id];
+				var button_element = document.getElementById(roomie_id.toString());
+				var input_element = document.getElementById(input_id);
+
+				if (input_element.className == "paying") {
+					button_element.className = "small button disabled";
+					input_element.className = "notpaying";
+				}
+				else {
+					button_element.className = "small button";
+					input_element.className = "paying";	
+				}
+				validate_money();
+			}
+
+			function get_selected_roommates() {
+				var roomies = JSON.parse(localStorage.getItem('roommates'));
+				var selected_roomies = [];
+				// Appropriate distribution to inputs
+				for (i = 0; i < roomies.length; i++) {
+					var roommate_slot = document.getElementById('roomie' + roomies[i]);
+					console.log(roommate_slot.className);
+					if (roommate_slot.className == "paying")
+						selected_roomies.push(roomies[i]);
+				}
+				console.log(selected_roomies);
+				return selected_roomies;
+			}
+
+			// helper function for validate_money
+			function get_distribution(centvalue) {
+				var roomies = get_selected_roommates();
 				var num_roomies = roomies.length;
 				var value = Math.floor(centvalue / parseFloat(num_roomies));
-				var distribution = new Array();
-				var arraylen = num_roomies;
-				while(arraylen--)distribution.push(value);
+				var distribution = {};
+				for (var i = 0; i < roomies.length; i++) {
+					distribution[roomies[i]] = value / 100.0;
+				}
 				console.log(distribution);
 
 				// Obtain distribution of cash between roommates
 				var leftovers = centvalue - (num_roomies * value);
-				console.log("leftovers: " + leftovers.toString());
 				var i = 0;
 				while(leftovers--) {
-				    distribution[i++] += 1;
-				    if (i == distribution.length) i = 0;
+				    distribution[roomies[i++]] += 0.01;
+				    if (i == roomies.length) i = 0;
 				}
 				console.log(distribution);
+				return distribution;
+			}
 
+			function distribute_money (centvalue) {
+				var roomies = get_selected_roommates();
+				var distribution = get_distribution(centvalue);
 				// Appropriate distribution to inputs
-				for (i = 0; i < roomies.length; i++) {
-					document.getElementById('roomie' + i.toString()).value = '$' + (distribution[i] / 100.0).toFixed(2).toString();
+				for (var name in distribution) {
+					var roommate_slot = document.getElementById('roomie' + name);
+					if (roommate_slot.className == "paying")
+						roommate_slot.value = '$' + (distribution[name]).toFixed(2).toString();	
 				}
 			}
 
-
-
+			function init_localstorage () {
+				if (localStorage.getItem('money') == null) {
+					var money = {Serin:-38.00, Elizabeth:5.00, Paul:0.00};
+					localStorage.setItem('money', JSON.stringify(money));
+				}
+				if (localStorage.getItem('chores') == null) {
+					var chores = {I:5, Elizabeth:30, Serin:2, Paul:4};
+					localStorage.setItem('chores', JSON.stringify(chores));
+				}
+				if (localStorage.getItem('history') == null) {
+					var history = [ ['12-03-2013', 'Paul', 27.00, 'lunch', ['Paul', 'Serin', 'Elizabeth']],
+									['12-02-2013', 'I', 5.25, 'cereal', ['Paul']],
+									['12-01-2013', 'emptied the trash'] ];
+					localStorage.setItem('history', JSON.stringify(history));
+				}
+				if (localStorage.getItem('roommates') == null) {
+					var roommates = ['Me', 'Serin', 'Elizabeth', 'Paul'];
+					localStorage.setItem('roommates', JSON.stringify(roommates));
+				}
+			}
 			
-			
+			function reset_localstorage() {
+				localStorage.clear();
+				init_localstorage();
+			}
 		</script>
 </head>
 <body>
@@ -123,7 +231,7 @@
 			</div>
 			<div class="nav-bar right">
 				<ul class="button-group">
-					<li><a href="index.html" class="button"><i class="step fi-arrow-right"></i></a></li>
+					<li><a href="#" onclick="submit()" class="button"><i class="step fi-arrow-right"></i></a></li>
 				</ul>
 			</div>
 			<h1>You Do It</h1>
@@ -136,6 +244,7 @@
 			<ul class="button-group">
 				<li><a href="#" class="small button disabled">MONEY</a></li>
 				<li><a href="./add_chore.html" class="small button">CHORE</a></li>
+				<li><a onclick="reset_localstorage()" class="small button">TEST</a></li>
 			</ul>
 		</div>
 	</div>
