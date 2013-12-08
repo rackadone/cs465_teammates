@@ -24,31 +24,86 @@
 			localStorage.setItem('roommates', JSON.stringify(roommates));
 
 			function print_roommates() {
-				var roommies = JSON.parse(localStorage.getItem('roommates'));
-				for (var i = 0; i < roommies.length; i++) {
-
+				var roomies = JSON.parse(localStorage.getItem('roommates'));
+				for (var i = 0; i < roomies.length; i++) {
 					document.write('<div class="row"><div class="small-3 large-2 columns">');
-					document.write('<a href="#" class="small button">' + roommies[i] + '</a></div>');
-					document.write('<div class="small-5 large-2 columns"><span class="prefix"><i class="step fi-dollar"></i></span></div></div>');
+					document.write('<a href="#" class="small button">' + roomies[i] + '</a></div>');
+					document.write('<div class="small-3 large-2 columns"><input id = "' + 'roomie' + i.toString() +'" type="text" placeholder="$0.00" /></div></div>');
 				}
 			}
 
 			// Store information in local storage
 			function submit() {
-				var moneyinput = document.getElementById('money').value;
-				var spenton = document.getElementById('task').value;
+				var moneyinput = trim_whitespace(document.getElementById('money').value);
+				var spenton = trim_whitespace(document.getElementById('task').value);
 				
 				if (moneyinput == "" || spenton == "") {
 					alert ("Please fill out all fields")
 				}
 				else {
-					// Check dollar input
-					var regex  = /^\d+(?:\.\d{0,2})$/;	
-					if (regex.test(moneyinput)) {
-						list = JSON.parse(localStorage.getItem('history'));
+					
+				}
+			}
+
+			function trim_whitespace (str) {
+    			return str.replace(/^\s\s*/, "").replace(/\s\s*$/, "");
+			}
+
+			// Validate and check money field
+			function validate_money() {
+				var regex = /^\$?[0-9]+(\.[0-9][0-9])?$/;
+				var moneyinput = trim_whitespace(document.getElementById('money').value);
+				if (moneyinput != "") {
+					if (!regex.test(moneyinput)) {
+						alert ("Please enter amount in currency format");
+						document.getElementById('money').value = "";
+					}
+					else {
+						var num_regex = /^\d+$/;
+						var dollar_regex = /^\$\d+$/;
+						if (num_regex.test(moneyinput)){
+							document.getElementById('money').value = "$" + moneyinput + ".00";
+							distribute_money(parseInt(moneyinput) * 100);
+						}
+						else if (dollar_regex.test(moneyinput)){
+							document.getElementById('money').value = moneyinput + ".00";
+							distribute_money(parseInt(moneyinput) * 100);
+						}
+						else {
+							distribute_money(parseInt(parseFloat(moneyinput.replace('$', '')) * 100.0));
+						}
+
 					}
 				}
 			}
+
+			// helper function for validate_money
+			function distribute_money(centvalue) {
+				var roomies = JSON.parse(localStorage.getItem('roommates'));
+				var num_roomies = roomies.length;
+				var value = Math.floor(centvalue / parseFloat(num_roomies));
+				var distribution = new Array();
+				var arraylen = num_roomies;
+				while(arraylen--)distribution.push(value);
+				console.log(distribution);
+
+				// Obtain distribution of cash between roommates
+				var leftovers = centvalue - (num_roomies * value);
+				console.log("leftovers: " + leftovers.toString());
+				var i = 0;
+				while(leftovers--) {
+				    distribution[i++] += 1;
+				    if (i == distribution.length) i = 0;
+				}
+				console.log(distribution);
+
+				// Appropriate distribution to inputs
+				for (i = 0; i < roomies.length; i++) {
+					document.getElementById('roomie' + i.toString()).value = '$' + (distribution[i] / 100.0).toFixed(2).toString();
+				}
+			}
+
+
 
 			
 			
@@ -100,11 +155,8 @@
 					<div class="small-3 large-2 columns">
 						<span class="prefix">I spent</span>
 					</div>
-					<div class="small-1 large-2 columns">
-						<span class="prefix"><i class="step fi-dollar"></i></span>
-					</div>
-					<div class="small-8 large-8 columns">
-						<input name="amount" id="money" type="text"  pattern="[0-9]*" autofocus/>
+					<div class="small-9 large-10 columns">
+						<input name="amount" id="money" type="text" onblur = "validate_money()" placeholder="$0.00" autofocus/>
 					</div>
 				</div>
 
