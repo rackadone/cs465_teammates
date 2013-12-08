@@ -31,7 +31,6 @@
 			}
 
 
-
 			// Store information in local storage
 			function submit() {
 				validate_money();
@@ -82,7 +81,6 @@
 					localStorage.setItem('history', JSON.stringify(history));
 
 					document.location.href = "./index.html";
-
 				}
 			}
 
@@ -244,7 +242,7 @@
 			<ul class="button-group">
 				<li><a href="#" class="small button disabled">MONEY</a></li>
 				<li><a href="./add_chore.html" class="small button">CHORE</a></li>
-				<li><a onclick="reset_localstorage()" class="small button">TEST</a></li>
+				<li><a onclick="reset_localstorage()" class="small button">CLEAR LOCAL STORAGE</a></li>
 			</ul>
 		</div>
 	</div>

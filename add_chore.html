@@ -19,21 +19,88 @@
 		<meta class="foundation-mq-topbar">
 		
 		<script>
-			// Temporary variables
-			var roommates = ['Serin', 'Elizabeth'];
-			localStorage.setItem('roommates', JSON.stringify(roommates));
-			
-			function print_roommates() {
-				var roommies = JSON.parse(localStorage.getItem('roommates'));
-				for (var i = 0; i < roommies.length; i++) {
+			init_localstorage();
+			var current_rating = 0;
 
-					document.write('<div class="row"><div class="small-3 large-2 columns">');
-					document.write('<a href="#" class="medium button">' + roommies[i] + '</a></div>');
-					document.write('<div class="small-5 large-2 columns"><span class="prefix">$</span></div></div>');
+			// Store information in local storage
+			function submit() {
+				var task = trim_whitespace(document.getElementById('task').value);
+				
+				if (task == "") {
+					alert ("Please fill out all fields");
+				}
+				else if (current_rating == 0) {
+					alert ("Please give this chore a nastiness rating");
+				}
+
+				else {
+					// Update 'chores' variable
+					var chores = JSON.parse(localStorage.getItem('chores'));
+					chores['I'] += current_rating;
+					localStorage.setItem('chores', JSON.stringify(chores));
+					console.log(chores);
+
+					// Update 'history' variable
+
+					// Get current date
+					var date_obj = new Date();
+					var date = ('0' + date_obj.getDate()).slice(-2);
+					var month = ('0' + (date_obj.getMonth() + 1)).slice(-2);
+					var year = date_obj.getFullYear();
+					var timestamp = month + "-" + date + "-" + year;
+
+					// Get task description
+					var history = JSON.parse(localStorage.getItem('history'));
+					history.unshift([timestamp, task]);
+					localStorage.setItem('history', JSON.stringify(history));
+
+					document.location.href = "./index.html";
 				}
 			}
 
+			function trim_whitespace (str) {
+    			return str.replace(/^\s\s*/, "").replace(/\s\s*$/, "");
+			}
+
+			function set_rating (rating) {
+				for (var i = 0; i < rating; i++) {
+					var real_rating = i + 1;
+					var rating_skull = document.getElementById('rating' + real_rating.toString());
+					rating_skull.className = "step fi-skull rating-approved";
+				}
+				for (var i = rating; i < 5; i++) {
+					var real_rating = i + 1;
+					var rating_skull = document.getElementById('rating' + real_rating.toString());
+					rating_skull.className = "step fi-skull rating-not-approved";
+				}
+				current_rating = rating;
+			}
+
+			function init_localstorage () {
+				if (localStorage.getItem('money') == null) {
+					var money = {Serin:-38.00, Elizabeth:5.00, Paul:0.00};
+					localStorage.setItem('money', JSON.stringify(money));
+				}
+				if (localStorage.getItem('chores') == null) {
+					var chores = {I:5, Elizabeth:30, Serin:2, Paul:4};
+					localStorage.setItem('chores', JSON.stringify(chores));
+				}
+				if (localStorage.getItem('history') == null) {
+					var history = [ ['12-03-2013', 'Paul', 27.00, 'lunch', ['Paul', 'Serin', 'Elizabeth']],
+									['12-02-2013', 'I', 5.25, 'cereal', ['Paul']],
+									['12-01-2013', 'emptied the trash'] ];
+					localStorage.setItem('history', JSON.stringify(history));
+				}
+				if (localStorage.getItem('roommates') == null) {
+					var roommates = ['Me', 'Serin', 'Elizabeth', 'Paul'];
+					localStorage.setItem('roommates', JSON.stringify(roommates));
+				}
+			}
 			
+			function reset_localstorage() {
+				localStorage.clear();
+				init_localstorage();
+			}
 		</script>
 </head>
 <body>
@@ -50,7 +117,7 @@
 			</div>
 			<div class="nav-bar right">
 				<ul class="button-group">
-					<li><a href="index.html" class="button"><i class="step fi-arrow-right"></i></a></li>
+					<li><a href="#" onclick="submit()" class="button"><i class="step fi-arrow-right"></i></a></li>
 				</ul>
 			</div>
 			<h1>You Do It</h1>
@@ -63,6 +130,7 @@
 			<ul class="button-group">
 				<li><a href="./add_money.html" class="small button">MONEY</a></li>
 				<li><a href="#" class="small button disabled">CHORE</a></li>
+				<li><a onclick="reset_localstorage()" class="small button">CLEAR LOCAL STORAGE</a></li>
 			</ul>
 		</div>
 	</div>
@@ -81,7 +149,7 @@
 			<form>
 				<div class="row collapse">
 					<div class="small-12 large-12 columns">
-						<input type="text" placeholder="..." autofocus />
+						<input id="task" type="text" placeholder="..." autofocus />
 					</div>
 				</div>
 			</form>
@@ -98,11 +166,11 @@
 <!-- Chore rating -->
 	<div class="row">
 		<div class="large-12 columns">
-			<i class="step fi-skull rating-not-approved"></i>
-			<i class="step fi-skull rating-not-approved"></i>
-			<i class="step fi-skull rating-not-approved"></i>
-			<i class="step fi-skull rating-not-approved"></i>
-			<i class="step fi-skull rating-not-approved"></i>
+			<i id = "rating1" onclick="set_rating(1)" class="step fi-skull rating-not-approved"></i>
+			<i id = "rating2" onclick="set_rating(2)" class="step fi-skull rating-not-approved"></i>
+			<i id = "rating3" onclick="set_rating(3)" class="step fi-skull rating-not-approved"></i>
+			<i id = "rating4" onclick="set_rating(4)" class="step fi-skull rating-not-approved"></i>
+			<i id = "rating5" onclick="set_rating(5)" class="step fi-skull rating-not-approved"></i>
 		</div>
 	</div>
 

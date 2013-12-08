@@ -82,7 +82,7 @@
 			}
 			
 			function print_chores() {
-				status = JSON.parse(localStorage.getItem('chores'));
+				var status = JSON.parse(localStorage.getItem('chores'));
 				max = 0;
 				for (var i = 0; i < status.length; i++) {
 					var time = status[i];
