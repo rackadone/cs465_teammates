@@ -122,6 +122,8 @@
 					else {
 						var num_regex = /^\d+$/;
 						var dollar_regex = /^\$\d+$/;
+
+
 						if (num_regex.test(moneyinput)){
 							document.getElementById('money').value = "$" + moneyinput + ".00";
 							distribute_money(parseInt(moneyinput) * 100);
@@ -131,6 +133,9 @@
 							distribute_money(parseInt(moneyinput) * 100);
 						}
 						else {
+							if (moneyinput.charAt(0) != '$') {
+								document.getElementById('money').value = "$" + moneyinput;
+							}
 							distribute_money(parseInt(parseFloat(moneyinput.replace('$', '')) * 100.0));
 						}
 					}
