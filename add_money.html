@@ -24,9 +24,9 @@
 			function print_roommates() {
 				var roomies = JSON.parse(localStorage.getItem('roommates'));
 				for (var i = 0; i < roomies.length; i++) {
-					document.write('<div class="row"><div class="small-2 large-2 columns">');
-					document.write('<a id = "' + i + '" onclick = "select_deselect(' + i + ')" class="small button">' + roomies[i] + '</a></div>');
-					document.write('<div class="small-3 large-2 columns"><input class= "paying" id = "' + 'roomie' + roomies[i] +'" type="text" placeholder="$0.00" disabled/></div></div>');
+					document.write('<div class="row"><div class="small-5 large-2 columns">');
+					document.write('<a id = "' + i + '" onclick = "select_deselect(' + i + ')" class="small button disabled">' + roomies[i] + '</a></div>');
+					document.write('<div class="small-7 large-2 columns"><input class= "notpaying" id = "' + 'roomie' + roomies[i] +'" type="text" placeholder="$0.00" disabled/></div></div>');
 				}
 			}
 
@@ -220,12 +220,12 @@
 		<div class="large-12 columns">
 			<div class="nav-bar left">
 				<ul class="button-group">
-					<li><a href="index.html" class="button"><i class="step fi-arrow-left"></i></a></li>
+					<li><a href="index.html" class="button"><i class="step fi-x"></i></a></li>
 				</ul>
 			</div>
 			<div class="nav-bar right">
 				<ul class="button-group">
-					<li><a href="#" onclick="submit()" class="button"><i class="step fi-arrow-right"></i></a></li>
+					<li><a href="#" onclick="submit()" class="button"><i class="step fi-check"></i></a></li>
 				</ul>
 			</div>
 			<h1>You Do It</h1>
@@ -254,19 +254,19 @@
 		<div class="large-12 columns">
 			<form name="addform">
 				<div class="row collapse">
-					<div class="small-3 large-2 columns">
+					<div class="small-5 large-2 columns">
 						<span class="prefix">I spent</span>
 					</div>
-					<div class="small-9 large-10 columns">
+					<div class="small-7 large-2 columns">
 						<input name="amount" id="money" type="text" onblur = "validate_money()" placeholder="$0.00" autofocus/>
 					</div>
 				</div>
 
 				<div class="row collapse">
-					<div class="small-3 large-2 columns">
+					<div class="small-5 large-2 columns">
 						<span class="prefix">On</span>
 					</div>
-					<div class="small-9 large-10 columns">
+					<div class="small-7 large-2 columns">
 						<input name="on" id="task" type="text" placeholder="...">
 					</div>
 				</div>
