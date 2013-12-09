@@ -32,6 +32,11 @@
 				}
 				document.write('</ul>');
 			}
+
+			function reset_localstorage() {
+				localStorage.clear();
+				init_localstorage();
+			}
 			
 
 		</script>
@@ -46,6 +51,11 @@
 			<div class="nav-bar left">
 				<ul class="button-group">
 					<li><a href="index.html" class="button"><i class="step fi-arrow-left"></i></a></li>
+				</ul>
+			</div>
+			<div class="nav-bar right">
+				<ul class="button-group">
+					<li><a href="add_money.html" class="button white"><i class="step fi-plus"></i></a></li>
 				</ul>
 			</div>
 			<h1>You Do It</h1>
@@ -63,14 +73,19 @@
 		<div class="large-12 columns" role="content">
 			<article class="callout panel">
 				<h2>ROOMMATES</h2>
+				<h2>
 				<script>
 					print_roommates();
 				</script>
+			</h2>
 			</article>
 			<div align="center">
-			<a href="login.html" class="medium radius button expand">Logout</a>
+			<a href="login.html" class="medium button expand">LOGOUT</a>
 			</div>
-			
+
+			<div align="center">
+			<a onclick="reset_localstorage()" class="medium button expand">CLEAR LOCAL STORAGE</a></li>
+			</div>
 		</div>
 	</div>
 </body>

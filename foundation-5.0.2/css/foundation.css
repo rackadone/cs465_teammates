@@ -291,7 +291,7 @@ select {
 
   .small-3 {
     position: relative;
-    width: 25%; }
+    width: 20px; }
 
   .small-4 {
     position: relative;
@@ -1919,6 +1919,7 @@ button, .button {
   -webkit-appearance: none;
   border: none;
   font-weight: normal !important; }
+  button.white, .button.white { background-color: white;}
   button:hover, button:focus, .button:hover, .button:focus {
     background-color: #0079a1; }
   button:hover, button:focus, .button:hover, .button:focus {
@@ -2065,19 +2066,19 @@ button, .button {
     border-right: 1px solid;
     border-color: rgba(255, 255, 255, 0.5); }
   .button-group.radius > *:first-child, .button-group.radius > *:first-child > a, .button-group.radius > *:first-child > button, .button-group.radius > *:first-child > .button {
-    -moz-border-radius-bottomleft: 3px;
-    -moz-border-radius-topleft: 3px;
-    -webkit-border-bottom-left-radius: 3px;
-    -webkit-border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    border-top-left-radius: 3px; }
+    -moz-border-radius-bottomleft: 20px;
+    -moz-border-radius-topleft: 20px;
+    -webkit-border-bottom-left-radius: 20px;
+    -webkit-border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px; }
   .button-group.radius > *:last-child, .button-group.radius > *:last-child > a, .button-group.radius > *:last-child > button, .button-group.radius > *:last-child > .button {
-    -moz-border-radius-topright: 3px;
-    -moz-border-radius-bottomright: 3px;
-    -webkit-border-top-right-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px; }
+    -moz-border-radius-topright: 20px;
+    -moz-border-radius-bottomright: 20px;
+    -webkit-border-top-right-radius: 20px;
+    -webkit-border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px; }
   .button-group.round > * > button, .button-group.round > * .button {
     border-right: 1px solid;
     border-color: rgba(255, 255, 255, 0.5); }
