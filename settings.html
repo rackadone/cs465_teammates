@@ -41,6 +41,8 @@
 					localStorage.clear();
 					init_localstorage();
 				}
+
+				document.location.href = "./settings.html";
 			}
 
 			function init_localstorage () {
@@ -74,14 +76,17 @@
 
 			function add_roomie() {
 				var new_roommie = prompt("Add your new roommate:");
-				if (new_roommie != "")
+				if (new_roommie == "")
+				{
+					document.location.href = "./settings.html";
+				}
+				else
 				{
 					alert("New roommate added");
 
 					var roommates = JSON.parse(localStorage.getItem('roommates'));
 					roommates[roommates.length] = new_roommie;
 					localStorage.setItem('roommates', JSON.stringify(roommates));
-
 
 					document.location.href = "./settings.html";
 				}
