@@ -25,8 +25,8 @@
 				var roomies = JSON.parse(localStorage.getItem('roommates'));
 				for (var i = 0; i < roomies.length; i++) {
 					document.write('<div class="row"><div class="small-2 large-2 columns">');
-					document.write('<a id = "' + i + '" onclick = "select_deselect(' + i + ')" class="small button">' + roomies[i] + '</a></div>');
-					document.write('<div class="small-3 large-2 columns"><input class= "paying" id = "' + 'roomie' + roomies[i] +'" type="text" placeholder="$0.00" disabled/></div></div>');
+					document.write('<a id = "' + i + '" onclick = "select_deselect(' + i + ')" class="small button disabled">' + roomies[i] + '</a></div>');
+					document.write('<div class="small-3 large-2 columns"><input class= "notpaying" id = "' + 'roomie' + roomies[i] +'" type="text" placeholder="$0.00" disabled/></div></div>');
 				}
 			}
 
