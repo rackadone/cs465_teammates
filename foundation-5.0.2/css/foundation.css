@@ -291,7 +291,7 @@ select {
 
   .small-3 {
     position: relative;
-    width: 20px; }
+    width: 25%; }
 
   .small-4 {
     position: relative;
@@ -1581,7 +1581,7 @@ meta.foundation-mq-topbar {
     font-weight: normal;
     background: #333333; }
     .top-bar-section ul li > a.button {
-      background: #008cba;
+      background: #ffffff;
       font-size: 1rem;
       padding-right: 15px;
       padding-left: 15px; }
@@ -1919,7 +1919,7 @@ button, .button {
   -webkit-appearance: none;
   border: none;
   font-weight: normal !important; }
-  button.white, .button.white { background-color: white;}
+
   button:hover, button:focus, .button:hover, .button:focus {
     background-color: #0079a1; }
   button:hover, button:focus, .button:hover, .button:focus {
@@ -2041,6 +2041,25 @@ button, .button {
         color: white; }
       button.disabled.alert:hover, button.disabled.alert:focus, button[disabled].alert:hover, button[disabled].alert:focus, .button.disabled.alert:hover, .button.disabled.alert:focus, .button[disabled].alert:hover, .button[disabled].alert:focus {
         background-color: #f04124; }
+
+
+  button.white, .button.white { background-color: white;}
+  button.white.disabled, button.white[disabled], .button.white.disabled, .button.white[disabled] {
+    background-color: #ffffff;
+    border-color: #ffffff;
+    color: white;
+    cursor: default;
+    opacity: 0.7;
+    -webkit-box-shadow: none;
+    box-shadow: none; }
+    button.white.disabled:hover, button.white.disabled:focus, button.white[disabled]:hover, button.white[disabled]:focus, .button.white.disabled:hover, .button.white.disabled:focus, .button.white[disabled]:hover, .button.white[disabled]:focus {
+      background-color: #ffffff; }
+    button.disabled:hover, button.white.disabled:focus, button.white[disabled]:hover, button.white[disabled]:focus, .button.white.disabled:hover, .button.white.disabled:focus, .button.white[disabled]:hover, ..white[disabled]:focus {
+      color: white; }
+    button.white.disabled:hover, button.white.disabled:focus, button.white[disabled]:hover, button.white[disabled]:focus, .button.white.disabled:hover, .button.white.disabled:focus, .button.white[disabled]:hover, .button.white[disabled]:focus {
+      background-color: #ffffff; }
+
+
 
 @media only screen and (min-width: 40.063em) {
   button, .button {
