@@ -1581,7 +1581,7 @@ meta.foundation-mq-topbar {
     font-weight: normal;
     background: #333333; }
     .top-bar-section ul li > a.button {
-      background: #ffffff;
+      background: #008cba;
       font-size: 1rem;
       padding-right: 15px;
       padding-left: 15px; }
@@ -2043,7 +2043,9 @@ button, .button {
         background-color: #f04124; }
 
 
-  button.white, .button.white { background-color: white;}
+  button.white, .button.white { 
+    background-color: white;
+    font-color: red; }
   button.white.disabled, button.white[disabled], .button.white.disabled, .button.white[disabled] {
     background-color: #ffffff;
     border-color: #ffffff;
@@ -2058,6 +2060,9 @@ button, .button {
       color: white; }
     button.white.disabled:hover, button.white.disabled:focus, button.white[disabled]:hover, button.white[disabled]:focus, .button.white.disabled:hover, .button.white.disabled:focus, .button.white[disabled]:hover, .button.white[disabled]:focus {
       background-color: #ffffff; }
+     button.white:hover, button.white:focus, .button.white:hover, .button.white:focus {
+      background-color: #0079a1;
+      color: white; }
 
 
 
