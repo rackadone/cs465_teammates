@@ -34,11 +34,24 @@
 			// Store information in local storage
 			function submit() {
 				validate_money();
+				var roomies = JSON.parse(localStorage.getItem('roommates'));
 				var moneyinput = trim_whitespace(document.getElementById('money').value);
 				var spenton = trim_whitespace(document.getElementById('task').value);
+
+				// check if individual fee fields is empty
+				var is_money_distributed = false;
+					for (i = 0; i < roomies.length; i++) {
+						var money_owed = document.getElementById('roomie' + roomies[i]).value;
+						if (money_owed != "") {
+							is_money_distributed = true;
+						}
+					}
 				
 				if (moneyinput == "" || spenton == "") {
-					alert ("Please fill out all fields");
+					alert("Please fill out all fields");
+				}
+				else if (!is_money_distributed){
+					alert("Please selected roommates that will pay");
 				}
 				else {
 					// Both money input and place spent on are filled out,
