@@ -34,10 +34,34 @@
 			}
 
 			function reset_localstorage() {
-				localStorage.clear();
-				init_localstorage();
+				var confirm = confirm("Do you really want to reset?");
+				if(confirm == true)
+				{
+					localStorage.clear();
+					init_localstorage();
+				}
 			}
-			
+
+			function init_localstorage () {
+				if (localStorage.getItem('money') == null) {
+					var money = {Serin:-38.00, Elizabeth:5.00, Paul:0.00};
+					localStorage.setItem('money', JSON.stringify(money));
+				}
+				if (localStorage.getItem('chores') == null) {
+					var chores = {I:5, Elizabeth:30, Serin:2, Paul:4};
+					localStorage.setItem('chores', JSON.stringify(chores));
+				}
+				if (localStorage.getItem('history') == null) {
+					var history = [ ['12-03-2013', 'Paul', 27.00, 'lunch', ['Paul', 'Serin', 'Elizabeth']],
+									['12-02-2013', 'I', 5.25, 'cereal', ['Paul']],
+									['12-01-2013', 'emptied the trash'] ];
+					localStorage.setItem('history', JSON.stringify(history));
+				}
+				if (localStorage.getItem('roommates') == null) {
+					var roommates = ['Me', 'Serin', 'Elizabeth', 'Paul'];
+					localStorage.setItem('roommates', JSON.stringify(roommates));
+				}
+			}
 
 		</script>
 </head>
@@ -79,13 +103,15 @@
 				</script>
 			</h2>
 			</article>
+			
 			<div align="center">
-			<a href="login.html" class="medium button expand">LOGOUT</a>
+				<a href="login.html" class="medium button expand">LOGOUT</a>
 			</div>
 
 			<div align="center">
-			<a onclick="reset_localstorage()" class="medium button expand">CLEAR LOCAL STORAGE</a></li>
+				<a onclick="reset_localstorage()" class="medium button expand">CLEAR LOCAL STORAGE</a>
 			</div>
+
 		</div>
 	</div>
 </body>
