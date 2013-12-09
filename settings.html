@@ -18,14 +18,26 @@
 		<meta class="foundation-mq-topbar">
 		
 		<script>
-			init_localstorage();
+			init_localstorage()
 
 			function print_roommates() {
 				var roomies = JSON.parse(localStorage.getItem('roommates'));
+
+				document.write('<ul class="no-bullet" style="text-align:center; font-size:.75em;">');
 				for (var i = 0; i < roomies.length; i++) {
-					document.write('<div class="row"><div class="small-5 large-2 columns">');
-					document.write('<a id = "' + i + '" onclick = "select_deselect(' + i + ')" class="small button disabled">' + roomies[i] + '</a></div>');
-					document.write('<div class="small-7 large-2 columns"><input class= "notpaying" id = "' + 'roomie' + roomies[i] +'" type="text" placeholder="$0.00" disabled/></div></div>');
+					if(roomies[i] != 'Me'){
+						document.write('<li>' + roomies[i] + '</li>');
+					}
+				}
+				document.write('</ul>');
+			}
+
+			function reset_localstorage() {
+				var r = confirm("Do you really want to reset?");
+				if(r == true)
+				{
+					localStorage.clear();
+					init_localstorage();
 				}
 			}
 
@@ -50,6 +62,14 @@
 				}
 			}
 
+			function logout() {
+				var r = confirm("Do you want to log out?");
+				if(r == true)
+				{
+					document.location.href = "./index.html";
+				}
+			}
+
 		</script>
 </head>
 <body>
@@ -66,7 +86,7 @@
 			</div>
 			<div class="nav-bar right">
 				<ul class="button-group">
-					<li><a href="add_money.html" class="button white"><i class="step fi-plus"></i></a></li>
+					<li><a href="#" class="button white"><i class="step fi-plus"></i></a></li>
 				</ul>
 			</div>
 			<h1>You Do It</h1>
@@ -92,7 +112,7 @@
 			</article>
 			
 			<div align="center">
-				<a href="login.html" class="medium button expand">LOGOUT</a>
+				<a onclick="logout()" class="medium button expand">LOGOUT</a>
 			</div>
 
 			<div align="center">
