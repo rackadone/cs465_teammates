@@ -118,42 +118,46 @@
 				}
 			}
 			function delete_history(item0,item1,item2,item3, item4) {
-				if (item2 == "") {
-					item = [item0, item1];
-				}
-				else {
-					var rawItems = item4.split(",");
-					var myArray = [];
-					for(key in rawItems) {
-						var value = rawItems[key];
-						myArray[key] = value;
+
+				var r = confirm("Would you like to delete the post?");
+				if ( r == true ){
+					if (item2 == "") {
+						item = [item0, item1];
 					}
-					item = [item0, item1, parseFloat(item2), item3, myArray];
-				}
-				historylist = JSON.parse(localStorage.getItem('history'));
-				for (var j = 0; j < historylist.length; j++) {
-					currentItem = historylist[j];
-					if (JSON.stringify(item) == JSON.stringify(currentItem) ) {
-						if (item.length == 5) {//MONEY
-							list = JSON.parse(localStorage.getItem('money'));
-							amount  = item[2] / item[4].length; //Amount of money
-							amount = parseFloat(amount).toFixed(2);
-							for (var i = 0; i < item[4].length; i++) {//list of people
-								person = item[4][i];
-								for (var elem in list) {
-									if (elem == person) {
-										startingAmount = list[elem];
-										newbalance = startingAmount - amount;
-										list[elem] = parseFloat(newbalance.toFixed(2));
+					else {
+						var rawItems = item4.split(",");
+						var myArray = [];
+						for(key in rawItems) {
+							var value = rawItems[key];
+							myArray[key] = value;
+						}
+						item = [item0, item1, parseFloat(item2), item3, myArray];
+					}
+					historylist = JSON.parse(localStorage.getItem('history'));
+					for (var j = 0; j < historylist.length; j++) {
+						currentItem = historylist[j];
+						if (JSON.stringify(item) == JSON.stringify(currentItem) ) {
+							if (item.length == 5) {//MONEY
+								list = JSON.parse(localStorage.getItem('money'));
+								amount  = item[2] / item[4].length; //Amount of money
+								amount = parseFloat(amount).toFixed(2);
+								for (var i = 0; i < item[4].length; i++) {//list of people
+									person = item[4][i];
+									for (var elem in list) {
+										if (elem == person) {
+											startingAmount = list[elem];
+											newbalance = startingAmount - amount;
+											list[elem] = parseFloat(newbalance.toFixed(2));
+										}
 									}
 								}
-							}
-							localStorage.setItem('money', JSON.stringify(list));
+								localStorage.setItem('money', JSON.stringify(list));
+							} 
+							historylist.splice(j,1);
+							localStorage.setItem('history', JSON.stringify(historylist));
 						} 
-						historylist.splice(j,1);
-						localStorage.setItem('history', JSON.stringify(historylist));
-					} 
-					
+						
+					}
 				}
 				
 				document.location.href = "./index.html";
