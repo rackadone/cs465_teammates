@@ -16,6 +16,21 @@
 		<meta class="foundation-mq-xxlarge">
 		<style></style>
 		<meta class="foundation-mq-topbar">
+	<style>
+		#wrapper {
+		 width: 100%;
+		 margin: 0 auto;
+		 height: 25px;
+		}
+		#leftcolumn {
+			 width: 98%;
+			 float: left;
+		}
+		#rightcolumn {
+			 width: 2%;
+			 float: right;
+		}
+		</style>
 		
 		<script>
 			if (localStorage.getItem('money') == null) {
@@ -48,11 +63,11 @@
 			}
 			
 			function print_history_chore(item) {
-				document.write('<li>' + item[0] + ' I ' + item[1] + '</li>');
+				document.write('<div id="wrapper"> <div id="leftcolumn"><li>' + item[0] + ' I ' + item[1] + '</li></div>'+ ' <div id="rightcolumn"><i class="step fi-prohibited size-12" onclick="delete_history(\''+ item[0] + '\',\'' + item[1] + '\',\'' + '\',\'' + '\',\''  +'\');"></i></div></div>');
 			}
 			
 			function print_history_money(item) {
-				document.write('<li>' + item[0] + ' ' + item[1] + ' spent $' + item[2] + ' on ' + item[3] + ' for ');
+				document.write('<div id="wrapper"> <div id="leftcolumn"><li>' + item[0] + ' ' + item[1] + ' spent $' + item[2] + ' on ' + item[3] + ' for ');
 				names = item[4];
 				if (names.length == 1) {
 					document.write(names[0]);
@@ -64,7 +79,11 @@
 					}
 					document.write(' and ' + names[names.length - 1]);
 				}
-				document.write('</li>');
+				document.write('</li></div>');
+				if(item[1] == "I") 
+					document.write(' <div id="rightcolumn"><i class="step fi-prohibited size-12" onclick="delete_history(\''+ item[0] + '\',\'' + item[1] + '\',\'' + item[2] + '\',\'' + item[3] + '\',\'' + item[4] +'\');"></i> </div></div>');
+				else
+					document.write('</div>');
 			}
 			
 			function print_money() {
@@ -73,9 +92,9 @@
 				for (var elem in list) {
 					amount = list[elem];
 					if (amount > 0) {
-						document.write('<li>' + elem + ' owes me $' + amount + '</li>');
+						document.write('<li>' + elem + ' owes me $' + amount.toFixed(2) + '</li>');
 					} else if (amount < 0) {
-						document.write('<li>I owe ' + elem + ' $' + (-1 * amount) + '</li>');
+						document.write('<li>I owe ' + elem + ' $' + (-1 * amount).toFixed(2) + '</li>');
 					}
 				}
 				document.write('</ul>');
@@ -97,6 +116,51 @@
 				} else {
 					document.write("<p>I am a terrible human being.</p>");
 				}
+			}
+			function delete_history(item0,item1,item2,item3, item4) {
+
+				var r = confirm("Would you like to delete the post?");
+				if ( r == true ){
+					if (item2 == "") {
+						item = [item0, item1];
+					}
+					else {
+						var rawItems = item4.split(",");
+						var myArray = [];
+						for(key in rawItems) {
+							var value = rawItems[key];
+							myArray[key] = value;
+						}
+						item = [item0, item1, parseFloat(item2), item3, myArray];
+					}
+					historylist = JSON.parse(localStorage.getItem('history'));
+					for (var j = 0; j < historylist.length; j++) {
+						currentItem = historylist[j];
+						if (JSON.stringify(item) == JSON.stringify(currentItem) ) {
+							if (item.length == 5) {//MONEY
+								list = JSON.parse(localStorage.getItem('money'));
+								amount  = item[2] / item[4].length; //Amount of money
+								amount = parseFloat(amount).toFixed(2);
+								for (var i = 0; i < item[4].length; i++) {//list of people
+									person = item[4][i];
+									for (var elem in list) {
+										if (elem == person) {
+											startingAmount = list[elem];
+											newbalance = startingAmount - amount;
+											list[elem] = parseFloat(newbalance.toFixed(2));
+										}
+									}
+								}
+								localStorage.setItem('money', JSON.stringify(list));
+							} 
+							historylist.splice(j,1);
+							localStorage.setItem('history', JSON.stringify(historylist));
+						} 
+						
+					}
+				}
+				
+				document.location.href = "./index.html";
 			}
 		</script>
 </head>
